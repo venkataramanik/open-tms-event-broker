@@ -1,4 +1,4 @@
-# Step 1: Use a clean, official open-source Python base image
+# Use a clean, official open-source Python base image
 FROM python:3.11-slim
 
 # Install system dependencies required for PostgreSQL and network tools
@@ -25,11 +25,11 @@ RUN pip install --no-cache-dir -r ./worker_requirements.txt
 COPY --chown=user:user api/ ./api/
 COPY --chown=user:user workers/ ./workers/
 
-# Secure the application directory
-RUN chown -y user:user /app
+# Secure the application directory recursively using the correct -R flag
+RUN chown -R user:user /app
 USER user
 
 EXPOSE 7860
 
-# Command the single container to run your API gateway on the required port
+# Command the container to run your API gateway on the required port
 CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "7860"]
