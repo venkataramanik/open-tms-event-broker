@@ -34,6 +34,14 @@ services:
     depends_on:
       - rabbitmq
       - postgres
+      - ollama
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: tms_ai_engine
+    volumes:
+      - ollama_data:/root/.ollama
 
 volumes:
   pgdata:
+  ollama_data:
